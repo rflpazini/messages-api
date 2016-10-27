@@ -77,7 +77,6 @@ public class MessagesFacadeREST extends AbstractFacade<Messages> {
         Gson g = new Gson();
         return g.toJson(l);
     }
-    
 
     @GET
     @Path("{from}/{to}")

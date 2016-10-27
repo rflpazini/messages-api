@@ -8,10 +8,14 @@ package entity.service;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import entity.Users;
+import java.security.SecureRandom;
 import java.util.List;
+import java.util.UUID;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -21,6 +25,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 /**
  *
@@ -96,5 +101,26 @@ public class UsersFacadeREST extends AbstractFacade<Users> {
     protected EntityManager getEntityManager() {
         return em;
     }
-    
+
+    @POST
+    @Path("auth/{username}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response authUser(@PathParam("username") String userName) {
+        Gson g = new Gson();
+        Query q = em.createQuery("SELECT u FROM Users u WHERE u.userName = :userName");
+        q.setParameter("userName", userName);
+        
+        try {
+            Users user = (Users) q.getSingleResult();            
+            return Response.ok(g.toJson(user)).build();
+        } catch (Exception e) {
+            System.out.println(e);
+            return Response.status(Response.Status.UNAUTHORIZED).build();
+        }
+    }
+
+    protected String generateToken() {
+        UUID uid = UUID.randomUUID();
+        return uid.toString();
+    }
 }
