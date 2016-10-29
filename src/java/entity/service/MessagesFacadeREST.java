@@ -43,6 +43,7 @@ public class MessagesFacadeREST extends AbstractFacade<Messages> {
         try {
             Gson g = new Gson();
             Messages msg = g.fromJson(entity, Messages.class);
+            super.create(msg);
         } catch (JsonSyntaxException e) {
             System.out.println(e);
         }
