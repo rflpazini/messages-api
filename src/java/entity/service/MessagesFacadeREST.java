@@ -21,6 +21,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 /**
  *
@@ -43,6 +44,7 @@ public class MessagesFacadeREST extends AbstractFacade<Messages> {
         try {
             Gson g = new Gson();
             Messages msg = g.fromJson(entity, Messages.class);
+            System.out.println(entity);
             super.create(msg);
         } catch (JsonSyntaxException e) {
             System.out.println(e);
@@ -97,5 +99,20 @@ public class MessagesFacadeREST extends AbstractFacade<Messages> {
     protected EntityManager getEntityManager() {
         return em;
     }
-    
+
+    @POST
+    @Path("add")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response addMessages(String entity) {
+        Gson g = new Gson();
+        try {
+            Messages msg = g.fromJson(entity, Messages.class);
+            super.create(msg);
+            return Response.ok(g.toJson(msg)).build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Response.status(Response.Status.NOT_ACCEPTABLE).build();
+        }
+    }
+
 }

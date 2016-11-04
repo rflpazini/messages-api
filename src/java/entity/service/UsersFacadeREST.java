@@ -112,7 +112,7 @@ public class UsersFacadeREST extends AbstractFacade<Users> {
             Users user = (Users) q.getSingleResult();
             return Response.ok(g.toJson(user)).build();
         } catch (Exception e) {
-            registerNewUser(userName);
+            registerNewUser(userName);  
             return Response.status(Response.Status.ACCEPTED).build();
         }
     }
@@ -128,5 +128,4 @@ public class UsersFacadeREST extends AbstractFacade<Users> {
         UUID token = UUID.randomUUID();
         return token.toString();
     }
-
 }

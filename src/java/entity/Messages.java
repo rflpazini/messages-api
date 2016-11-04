@@ -46,8 +46,7 @@ public class Messages implements Serializable {
     @Column(name = "msg_body")
     private String msgBody;
     @Column(name = "msg_date")
-    @Temporal(TemporalType.DATE)
-    private Date msgDate;
+    private String msgDate;
     @Size(max = 100)
     @Column(name = "msg_from")
     private String msgFrom;
@@ -75,11 +74,11 @@ public class Messages implements Serializable {
         this.msgBody = msgBody;
     }
 
-    public Date getMsgDate() {
+    public String getMsgDate() {
         return msgDate;
     }
 
-    public void setMsgDate(Date msgDate) {
+    public void setMsgDate(String msgDate) {
         this.msgDate = msgDate;
     }
 
