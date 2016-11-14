@@ -114,5 +114,4 @@ public class MessagesFacadeREST extends AbstractFacade<Messages> {
             return Response.status(Response.Status.NOT_ACCEPTABLE).build();
         }
     }
-
 }
