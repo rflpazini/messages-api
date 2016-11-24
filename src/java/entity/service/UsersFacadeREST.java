@@ -112,16 +112,18 @@ public class UsersFacadeREST extends AbstractFacade<Users> {
             Users user = (Users) q.getSingleResult();
             return Response.ok(g.toJson(user)).build();
         } catch (Exception e) {
-            registerNewUser(userName);  
-            return Response.status(Response.Status.ACCEPTED).build();
+            Users newUser = registerNewUser(userName);  
+            return Response.ok(g.toJson(newUser)).build();
         }
     }
 
-    private void registerNewUser(String userName) {
+    private Users registerNewUser(String userName) {
         Users user = new Users();
         user.setUserName(userName);
         user.setUserIp(getToken());
         super.create(user);
+        
+        return user;
     }
 
     private String getToken() {
